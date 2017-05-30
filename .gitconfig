@@ -1,0 +1,39 @@
+[user]
+	name = raeno
+	email = just.raeno@gmail.com
+[core]
+	excludesfile = /Users/raeno/.gitignore_global
+	editor = vim
+	autocrlf = input
+[color "diff"]
+  meta = yellow bold
+  rag = magenta bold
+  old = red
+  new = green
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[push]
+	default = simple
+[alias]
+  l = log --graph --date=short
+ 	tree = log --graph --decorate --pretty=oneline --abbrev-commit
+	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+	dl = "!git ll -1"
+	dlc = diff --cached HEAD^
+	lweek = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --since=1 week ago
+	co = checkout
+  st = status
+  ci = commit
+  rbs = branch --sort=-committerdate
+
+	# reset
+	unstage = reset HEAD              # remove files from index (tracking)
+	uncommit = reset --soft HEAD^     # go back before last commit, with
+	filelog = log -u                  # show changes to a file
+	mt = mergetool                    # fire up the merge tool

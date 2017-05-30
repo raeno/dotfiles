@@ -1,0 +1,41 @@
+Host *
+  ServerAliveInterval 240
+
+Host webshadow
+Hostname webshadow.org
+User deploy
+
+Host ws_staging
+Hostname 23.253.23.96
+User deploy
+
+Host ws_production
+Hostname 166.78.199.117
+User deploy
+
+Host ws_old
+Hostname 192.237.180.162
+User raeno
+
+Host gitlab
+Hostname git.pinkpanzer.org
+Port 52
+User raeno
+
+Host julia
+Hostname 188.42.243.29 
+Port 22
+User raeno
+
+Host ws_dev
+Hostname 104.130.205.62
+User root
+
+Host home_server
+Hostname home.mishki.ninja
+User raeno
+Port 22
+
+Host julia_yoga
+Hostname 192.168.1.108
+User julia
