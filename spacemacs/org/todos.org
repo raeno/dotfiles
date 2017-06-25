@@ -1,0 +1,6 @@
+ MY PROJECT -*- mode: org -*-  
+#+TODO: TODO IN-PROGRESS WAITING DONE
+
+* TODO Add support for single quotes to vue-mode in emacs
+* TODO Call stomatology and schedule appointment
+* TODO Drive piano to repair shop
