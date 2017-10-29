@@ -10,8 +10,7 @@ values."
    ;; Base distribution to use. This is a layer contained in the directory
    ;; `+distribution'. For now available distributions are `spacemacs-base'
    ;; or `spacemacs'. (default 'spacemacs)
-   dotspacemacs-distribution 'spacemacs
-   ;; Lazy installation of layers (i.e. layers are installed only when a file
+   dotspacemacs-distribution 'spacemacs ;; Lazy installation of layers (i.e. layers are installed only when a file
    ;; with a supported type is opened). Possible values are `all', `unused'
    ;; and `nil'. `unused' will lazy install only unused layers (i.e. layers
    ;; not listed in variable `dotspacemacs-configuration-layers'), `all' will
@@ -30,13 +29,21 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(ansible
+     sql
+     rust
+     markdown
      javascript
      elm
      yaml
-     (ruby :variables ruby-test-runner 'minitest)
+     (ruby :variables
+           ruby-version-manager 'rvm
+           ruby-test-runner 'minitest
+           )
      ruby-on-rails
      html
+     emacs-lisp
+     java
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -49,6 +56,8 @@ values."
      git
      ;; markdown
      org
+     journal
+     deft
      dash
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -62,11 +71,12 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(vue-mode)
+   dotspacemacs-additional-packages '(
+                                      vue-mode
+                                      (minitest :location (recipe :fetcher github :repo "raeno/minitest-emacs" :branch "rails-5-support")))
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
-   ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   ;; A list of packages that will not be installed and loaded. dotspacemacs-excluded-packages '()
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -98,7 +108,7 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update nil
+   dotspacemacs-check-for-update 1
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
@@ -322,14 +332,42 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq powerline-default-separator 'utf-8)
+  (setq ansible::vault-password-file ".vault_password")
   (use-package vue-mode)
-  (setq linum-format "%3d\u2502 " )
-
-  (setq-default dotspacemacs-configuration-layer
-                '((org :variables org-projectile-file "~/spacemacs/org/todos.org")))
-  (setq-default js2-basic-offset 2)
+  (setq-default
+    linum-format "%4d \u2502"
+    git-gutter:modified-sign "!"
+    js2-basic-offset 2
+    minitest-use-spring t
+   )
   (global-hl-line-mode -1)
-  )
+  (spacemacs/toggle-smartparens-globally-off)
+  (rust-format-on-save t)
+
+  (defun minitest-test-command ()
+                         ( '("spring" "rake" "test" "TEST=")))
+  (progn
+    ;; Git Gutter
+    (set-face-attribute
+     'git-gutter:added nil :background nil :foreground "green")
+    (set-face-attribute
+     'git-gutter:deleted nil :background nil :foreground "red")
+    (set-face-attribute
+     'git-gutter:modified nil :background nil :foreground "blue"))
+
+  ;; Org mode configuration
+  (require 'org-projectile)
+  (add-to-list 'org-capture-templates (org-projectile:project-todo-entry)) ;; Probably already in spacemacs
+  (custom-set-variables
+   '(org-directory "~/org/")
+   '(org-agenda-files (list org-directory)))
+
+
+  (setq
+   org-journal-dir "~/journal"
+   ;;org-agenda-files (append org-agenda-files (org-projectile:todo-files)) ;; Add projectile files to agenda
+   )
+  (setq deft-directory "~/org"))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -351,3 +389,31 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil)))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#080808" "#d70000" "#67b11d" "#875f00" "#268bd2" "#af00df" "#00ffff" "#b2b2b2"])
+ '(evil-want-Y-yank-to-eol nil)
+ '(js-indent-level 2)
+ '(org-agenda-files
+   (quote
+    ("~/Documents/org/telegram.org" "~/Documents/org/work.org" "~/Documents/org/home.org" "~/Documents/org/inbox.org" "~/Documents/org/open_source.org")))
+ '(package-selected-packages
+   (quote
+    (cargo eclim markdown-mode flycheck jinja2-mode company-ansible ansible-doc ansible helm-dash dash-at-point web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data vue-mode ssass-mode vue-html-mode mmm-mode elm-mode projectile-rails inflections feature-mode yaml-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby unfill smeargle reveal-in-osx-finder pbcopy osx-trash osx-dictionary orgit mwim magit-gitflow launchctl helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter fuzzy evil-magit magit magit-popup git-commit with-editor diff-hl company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:background nil)))))
+)
+(add-hook 'after-init-hook 'inf-ruby-switch-setup)
