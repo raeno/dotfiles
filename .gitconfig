@@ -1,9 +1,9 @@
 [user]
 	name = raeno
-	email = just.raeno@gmail.com
+	email = just.raeno@icloud.com
 [core]
 	excludesfile = /Users/raeno/.gitignore_global
-	editor = vim
+	editor = nvim
 	autocrlf = input
 [color "diff"]
   meta = yellow bold
@@ -14,7 +14,7 @@
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [push]
 	default = simple
@@ -28,12 +28,20 @@
 	dlc = diff --cached HEAD^
 	lweek = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --since=1 week ago
 	co = checkout
+	wip="!git add . && git commit -m 'WIP'"
+	rewip="reset --soft HEAD^"
+	uns="restore --staged"
   st = status
   ci = commit
   rbs = branch --sort=-committerdate
+  cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
 
 	# reset
 	unstage = reset HEAD              # remove files from index (tracking)
 	uncommit = reset --soft HEAD^     # go back before last commit, with
 	filelog = log -u                  # show changes to a file
 	mt = mergetool                    # fire up the merge tool
+[diff]
+	algorithm = patience
+[pull]
+	ff = only

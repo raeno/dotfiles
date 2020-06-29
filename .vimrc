@@ -12,61 +12,78 @@ call plug#begin()
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'Lokaltog/vim-easymotion'
+Plug 'tpope/vim-rhubarb'
 
 Plug 'rizzatti/dash.vim'
-Plug 'vimwiki/vimwiki'
-" Plug 'tbabej/taskwiki'
+Plug 'mtth/scratch.vim'
 
 Plug 'Raimondi/delimitMate'
-Plug 'kchmck/vim-coffee-script'
 Plug 'gaogao1030/vim-slimbars'
+
 Plug 'neomake/neomake'
 Plug 'scrooloose/syntastic'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'tpope/vim-surround'
 
 Plug 'rizzatti/dash.vim'
-Plug 'Yggdroot/indentLine'
 
+Plug 'janko-m/vim-test'
+
+" JS stuff
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'othree/yajs.vim'
 Plug 'posva/vim-vue'
 Plug 'digitaltoad/vim-pug'
 
+" Typescript
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
+
+" ReasonML
+Plug 'reasonml-editor/vim-reason-plus'
+
 " ruby stuff
 Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'jgdavey/vim-blockle'
-Plug 'ngmy/vim-rubocop'
+Plug 'slim-template/vim-slim'
+
+" SML
+Plug 'jez/vim-better-sml'
 
 Plug 'bling/vim-airline'
 
+if has('nvim')
+  Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/denite.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
 Plug 'scrooloose/nerdtree'
-Plug 'slim-template/vim-slim'
-Plug 'kien/ctrlp.vim'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " color schemes
 Plug 'altercation/vim-colors-solarized'
 Plug 'blueshirts/darcula'
 Plug 'vim-scripts/mayansmoke'
 
-Plug 'scrooloose/nerdcommenter'
-Plug 'janko-m/vim-test'
-Plug 'tpope/vim-rvm'
+Plug 'preservim/nerdcommenter'
 
 " pythong & machine learning
 Plug 'tmhedberg/SimpylFold'
 
-Plug 'Valloric/YouCompleteMe'
-" Plug 'nvie/vim-flake8'
-
 " scheme & clojure
 Plug 'kien/rainbow_parentheses.vim'
+Plug 'tpope/vim-classpath'
 
 " clojure stuff
 Plug 'guns/vim-clojure-static'
@@ -92,8 +109,6 @@ set background=dark
 set number
 set t_Co=256
 colorscheme darcula
-
-filetype plugin indent on 
 
 set expandtab
 set tabstop=2
@@ -128,6 +143,8 @@ set wildmenu
 set nobackup
 set nowritebackup
 
+set updatetime=300
+
 " clear selection
 nnoremap <leader><space> :noh<cr>
 
@@ -137,36 +154,6 @@ set wrap
 set textwidth=79
 set formatoptions=qrn1
 set colorcolumn=85
-
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
-nnoremap j gj
-nnoremap k gk
-
-inoremap jk <ESC>
-
-nnoremap <leader><leader> <c-^>
-
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-
-map <c-c> <esc>
-
-" F1 is like escape for us
-inoremap <F1> <ESC>
-nnoremap <F1> <ESC>
-vnoremap <F1> <ESC>
-
-" map ESC as exit to normal mode in terminal
-tnoremap <Esc> <C-\><C-n>
 
 " local replace
 nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
@@ -184,9 +171,9 @@ map <leader>v :view %%"
 
 let g:auto_save=1
 set noswapfile
-set tags+=gems.tags
 
 set pastetoggle=<F2>
+set termguicolors
 
 " support russian in normal mode
 set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯЖ;ABCDEFGHIJKLMNOPQRSTUVWXYZ:,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
@@ -199,4 +186,5 @@ autocmd filetype lisp,scheme,art setlocal equalprg=scmindent.rkt
 " open quickwindow after any grep
 autocmd QuickFixCmdPost *grep* cwindow
 
-so ~/.vim/settings.vim
+packadd! matchit
+so ~/settings.vim
