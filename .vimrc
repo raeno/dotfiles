@@ -7,8 +7,7 @@ set clipboard+=unnamedplus
 call plug#begin()
 
 " " The following are examples of different formats supported.
-" " Keep bundle commands between here and filetype plugin indent on.
-" " scripts on GitHub repos
+" " Keep bundle commands between here and filetype plugin indent on.  " " scripts on GitHub repos
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'Lokaltog/vim-easymotion'
@@ -75,6 +74,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'altercation/vim-colors-solarized'
 Plug 'blueshirts/darcula'
 Plug 'vim-scripts/mayansmoke'
+Plug 'rakr/vim-one'
 
 Plug 'preservim/nerdcommenter'
 
@@ -108,7 +108,11 @@ set background=dark
 
 set number
 set t_Co=256
-colorscheme darcula
+set background=dark 
+let g:one_allow_italics = 1
+colorscheme one
+
+let g:airline_theme='one'
 
 set expandtab
 set tabstop=2
@@ -161,6 +165,12 @@ nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
 nnoremap gR gD:%s/<C-R>///gc<left><left><left>
 
 map <leader>it :r! date "+\%A, \%Y \%B \%d \%H:\%M:\%S"<C-R>
+
+" theme configuration
+let g:nord_uniform_diff_background = 1
+let g:nord_italic = 1
+let g:nord_underline = 1
+let g:nord_italic_comments = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " OPEN FILES IN DIRECTORY OF CURRENT FILE
